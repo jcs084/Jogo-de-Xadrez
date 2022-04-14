@@ -10,12 +10,20 @@ import jogoxadrez.modelopecas.*;
 public class Tabuleiro {
     private Peca[][] pecasExistentes;
     private Peca pecaSelecionada = null;
-    private final static int linhaPadraoTabuleiro = 8, colunaPadraoTabuleiro = 8; // Tamanho Padrão de um tabuleiro de xadrez (8x8).
+    private int linhaPadraoTabuleiro = 8, colunaPadraoTabuleiro = 8; // Tamanho Padrão de um tabuleiro de xadrez (8x8).
     private EnumCor rodada = EnumCor.BRANCO;
 
     public Tabuleiro() {
-        this.pecasExistentes = new Peca[linhaPadraoTabuleiro][colunaPadraoTabuleiro];
+        this.pecasExistentes = new Peca[getLinhaPadraoTabuleiro()][getColunaPadraoTabuleiro()];
         adicionarPecasTabuleiro();
+    }
+
+    public int getLinhaPadraoTabuleiro() {
+        return linhaPadraoTabuleiro;
+    }
+
+    public int getColunaPadraoTabuleiro() {
+        return colunaPadraoTabuleiro;
     }
 
     public Peca getPeca(int linha, int coluna) {
@@ -79,8 +87,6 @@ public class Tabuleiro {
             Peao peaoPreto = new Peao(EnumCor.PRETO, 1, i);
             this.addPeca(peaoPreto);
         }
-
-
     }
 
     public boolean selecionaPeca(Peca peca) {

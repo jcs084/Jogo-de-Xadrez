@@ -12,7 +12,6 @@ import java.awt.event.MouseListener;
  */
 public class RepresentarTabuleiro extends JPanel implements MouseListener {
     private Tabuleiro tabuleiro;
-    private final static int linhaPadraoTabuleiro = 8, colunaPadraoTabuleiro = 8; // Tamanho Padrão de um tabuleiro de xadrez, 8x8.
 
     public RepresentarTabuleiro(Tabuleiro tabuleiro) {
         this.tabuleiro = tabuleiro;
@@ -21,9 +20,9 @@ public class RepresentarTabuleiro extends JPanel implements MouseListener {
 
     public void desenharTabuleiro(){
         this.removeAll();
-        this.setLayout(new GridLayout(linhaPadraoTabuleiro,colunaPadraoTabuleiro));
-        for(int x = 0; x < linhaPadraoTabuleiro; x++){
-            for (int y = 0; y < colunaPadraoTabuleiro; y++){
+        this.setLayout(new GridLayout(tabuleiro.getLinhaPadraoTabuleiro(),tabuleiro.getColunaPadraoTabuleiro()));
+        for(int x = 0; x < tabuleiro.getLinhaPadraoTabuleiro(); x++){
+            for (int y = 0; y < tabuleiro.getColunaPadraoTabuleiro(); y++){
                 RepresentarCelula representarCelula;
                 Peca peca = this.tabuleiro.getPeca(x,y);
                 if(peca != null){
@@ -40,14 +39,6 @@ public class RepresentarTabuleiro extends JPanel implements MouseListener {
 
         }
         this.revalidate();
-    }
-
-    public Tabuleiro getTabuleiro() {
-        return tabuleiro;
-    }
-
-    public void setTabuleiro(Tabuleiro tabuleiro) {
-        this.tabuleiro = tabuleiro;
     }
 
     @Override

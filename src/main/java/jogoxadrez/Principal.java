@@ -25,7 +25,7 @@ public class Principal extends JFrame {
         JPanel pnRodada = painelRodada();
         this.add(pnRodada, BorderLayout.SOUTH);
 
-        JPanel pnBotao = painelBotoes();
+        JPanel pnBotao = criarPainelBotoes();
         this.add(pnBotao, BorderLayout.EAST);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,7 +33,7 @@ public class Principal extends JFrame {
         this.setVisible(true);
     }
 
-    private JPanel painelBotoes() {
+    private JPanel criarPainelBotoes() {
         JPanel pnLateral = new JPanel();
         pnLateral.setLayout(new GridLayout(10, 1));
         BT_REINICIAR_JOGO = new JButton("REINICIAR JOGO");

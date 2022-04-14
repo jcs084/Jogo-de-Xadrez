@@ -25,8 +25,8 @@ public class Principal extends JFrame {
         JPanel pnRodada = painelRodada();
         this.add(pnRodada, BorderLayout.SOUTH);
 
-        JPanel pnBotoes = painelBotoes();
-        this.add(pnBotoes, BorderLayout.EAST);
+        JPanel pnBotao = painelBotoes();
+        this.add(pnBotao, BorderLayout.EAST);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();

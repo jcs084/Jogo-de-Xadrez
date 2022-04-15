@@ -1,7 +1,7 @@
 package jogoxadrez.modelojogo;
 
 
-import jogoxadrez.Principal;
+import jogoxadrez.JogoXadrezApplication;
 import jogoxadrez.modelopecas.*;
 
 /**
@@ -110,11 +110,11 @@ public class Tabuleiro {
          */
         if (rodada.equals(EnumCor.BRANCO)) {
             this.rodada = EnumCor.PRETO;
-            Principal.setLabelRodada(this.rodada);
+            JogoXadrezApplication.setLabelRodada(this.rodada);
             return true;
         }
         this.rodada = EnumCor.BRANCO;
-        Principal.setLabelRodada(this.rodada);
+        JogoXadrezApplication.setLabelRodada(this.rodada);
         return false;
     }
 

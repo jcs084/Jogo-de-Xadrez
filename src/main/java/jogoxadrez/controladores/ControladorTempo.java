@@ -11,9 +11,8 @@ public class ControladorTempo implements Runnable{
     private int tempoGasto = 0;
     private static boolean rodada = true;
 
-    public ControladorTempo(RepresentarTabuleiro representarTabuleiro) {
+    public ControladorTempo() {
         super();
-        this.representarTabuleiro = representarTabuleiro;
     }
 
     @Override
@@ -36,6 +35,10 @@ public class ControladorTempo implements Runnable{
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void setRepresentarTabuleiro(RepresentarTabuleiro representarTabuleiro) {
+        this.representarTabuleiro = representarTabuleiro;
     }
 
     public void zeraCronometro() {

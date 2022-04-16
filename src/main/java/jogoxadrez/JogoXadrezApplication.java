@@ -32,11 +32,12 @@ public class JogoXadrezApplication extends JFrame {
     }
 
     private void criaTabuleiro() {
-        controladorTempo = new ControladorTempo(this.representarTabuleiro);
         setTitle("Jogo de Xadrez");
         this.setLayout(new BorderLayout());
+        this.controladorTempo = new ControladorTempo();
         this.tabuleiro = new Tabuleiro(controladorTempo);
         this.representarTabuleiro = new RepresentarTabuleiro(this.tabuleiro);
+        this.controladorTempo.setRepresentarTabuleiro(this.representarTabuleiro);
         this.add(representarTabuleiro, BorderLayout.CENTER);
 
         this.add(painelRodada(), BorderLayout.SOUTH);

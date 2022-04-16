@@ -1,5 +1,6 @@
 package jogoxadrez;
 
+import jogoxadrez.controladores.ControladorTempo;
 import jogoxadrez.modelojogo.*;
 import jogoxadrez.modelopecas.*;
 
@@ -12,20 +13,42 @@ import java.awt.*;
 public class JogoXadrezApplication extends JFrame {
     private JButton BT_REINICIAR_JOGO;
     private JButton BT_PASSAR_VEZ;
+
     private static JLabel labelRodada;
+
+    private static Thread threadTempo;
+
     private int linhaPainelBotao = 10;
     private int colunaPainelBotao = 1;
+
     private Tabuleiro tabuleiro;
+
+    private ControladorTempo controladorTempo;
+
+    private RepresentarTabuleiro representarTabuleiro;
 
     public JogoXadrezApplication(){
         criaTabuleiro();
-        this.add(new RepresentarTabuleiro(this.tabuleiro), BorderLayout.CENTER);
+    }
+
+    private void criaTabuleiro() {
+        controladorTempo = new ControladorTempo(this.representarTabuleiro);
+        setTitle("Jogo de Xadrez");
+        this.setLayout(new BorderLayout());
+        this.tabuleiro = new Tabuleiro(controladorTempo);
+        this.representarTabuleiro = new RepresentarTabuleiro(this.tabuleiro);
+        this.add(representarTabuleiro, BorderLayout.CENTER);
 
         this.add(painelRodada(), BorderLayout.SOUTH);
 
         this.add(criarPainelBotoes(), BorderLayout.EAST);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Controla o tempo limite de jogada
+        this.threadTempo = new Thread(controladorTempo);
+        this.threadTempo.start();
+
         this.pack();
         this.setVisible(true);
     }
@@ -38,12 +61,6 @@ public class JogoXadrezApplication extends JFrame {
         pnBotao.add(this.BT_REINICIAR_JOGO);
         pnBotao.add(this.BT_PASSAR_VEZ);
         return pnBotao;
-    }
-
-    private void criaTabuleiro() {
-        setTitle("Jogo de Xadrez Ifsc");
-        this.setLayout(new BorderLayout());
-        this.tabuleiro = new Tabuleiro();
     }
 
     private JPanel painelRodada() {

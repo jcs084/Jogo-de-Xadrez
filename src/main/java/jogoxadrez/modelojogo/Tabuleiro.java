@@ -2,6 +2,7 @@ package jogoxadrez.modelojogo;
 
 
 import jogoxadrez.JogoXadrezApplication;
+import jogoxadrez.controladores.ControladorTempo;
 import jogoxadrez.modelopecas.*;
 
 /**
@@ -12,8 +13,12 @@ public class Tabuleiro {
     private Peca pecaSelecionada = null;
     private int linhaPadraoTabuleiro = 8, colunaPadraoTabuleiro = 8; // Tamanho Padrão de um tabuleiro de xadrez (8x8).
     private EnumCor rodada = EnumCor.BRANCO;
+    private ControladorTempo controladorTempo;
+    public static final int TEMPO_JOGADA = 10000;
 
-    public Tabuleiro() {
+
+    public Tabuleiro(ControladorTempo controladorTempo) {
+        this.controladorTempo = controladorTempo;
         this.pecasExistentes = new Peca[getLinhaPadraoTabuleiro()][getColunaPadraoTabuleiro()];
         adicionarPecasTabuleiro();
     }
@@ -28,6 +33,18 @@ public class Tabuleiro {
 
     public Peca getPeca(int linha, int coluna) {
         return this.pecasExistentes[linha][coluna];
+    }
+
+    public EnumCor getRodada() {
+        return rodada;
+    }
+
+    public Peca getPecaSelecionada() {
+        return pecaSelecionada;
+    }
+
+    public void setPecaSelecionada(Peca pecaSelecionada) {
+        this.pecaSelecionada = pecaSelecionada;
     }
 
     public void setPeca(Peca peca){
@@ -115,6 +132,7 @@ public class Tabuleiro {
         }
         this.rodada = EnumCor.BRANCO;
         JogoXadrezApplication.setLabelRodada(this.rodada);
+        controladorTempo.zeraCronometro();
         return false;
     }
 
@@ -135,7 +153,7 @@ public class Tabuleiro {
         return false;
     }
 
-    public void jogada(int linha, int coluna) {
+    public void realizaJogada(int linha, int coluna) {
         Peca peca = this.getPeca(linha, coluna);
         if(this.pecaSelecionada == null){
             if(peca != null && peca.getCor().equals(this.rodada)){

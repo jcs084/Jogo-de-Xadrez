@@ -41,10 +41,15 @@ public class RepresentarTabuleiro extends JPanel implements MouseListener {
         this.revalidate();
     }
 
+    public Tabuleiro getTabuleiro() {
+        return tabuleiro;
+    }
+
+
     @Override
     public void mouseClicked(MouseEvent e) {
         RepresentarCelula representarCelula = (RepresentarCelula) e.getSource();
-        this.tabuleiro.jogada(representarCelula.getLinha(), representarCelula.getColuna());
+        this.tabuleiro.realizaJogada(representarCelula.getLinha(), representarCelula.getColuna());
         this.desenharTabuleiro();
     }
 

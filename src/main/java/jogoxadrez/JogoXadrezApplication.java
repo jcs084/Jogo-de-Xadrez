@@ -22,10 +22,11 @@ public class JogoXadrezApplication extends JFrame {
     private int colunaPainelBotao = 1;
 
     private Tabuleiro tabuleiro;
-
     private ControladorTempo controladorTempo;
-
     private RepresentarTabuleiro representarTabuleiro;
+    private JProgressBar barraProgresso;
+    private int tamanhoMinimoBProgresso = 0;
+    private int tamanhoMaximoBProgresso;
 
     public JogoXadrezApplication(){
         criaTabuleiro();
@@ -34,16 +35,20 @@ public class JogoXadrezApplication extends JFrame {
     private void criaTabuleiro() {
         setTitle("Jogo de Xadrez");
         this.setLayout(new BorderLayout());
-        this.controladorTempo = new ControladorTempo();
+        UIManager.put("ProgressBar.background", Color.WHITE);
+        UIManager.put("ProgressBar.foreground", Color.RED);
+        UIManager.put("ProgressBar.selectionBackground", Color.BLACK);
+        this.barraProgresso = new JProgressBar();
+        criarBarraProgresso();
+        this.controladorTempo = new ControladorTempo(this.barraProgresso);
         this.tabuleiro = new Tabuleiro(controladorTempo);
         this.representarTabuleiro = new RepresentarTabuleiro(this.tabuleiro);
         this.controladorTempo.setRepresentarTabuleiro(this.representarTabuleiro);
         this.add(representarTabuleiro, BorderLayout.CENTER);
 
-        this.add(painelRodada(), BorderLayout.SOUTH);
-
+        this.add(painelRodada(), BorderLayout.NORTH);
         this.add(criarPainelBotoes(), BorderLayout.EAST);
-
+        this.add(criarBarraProgresso(), BorderLayout.SOUTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Controla o tempo limite de jogada
@@ -52,6 +57,15 @@ public class JogoXadrezApplication extends JFrame {
 
         this.pack();
         this.setVisible(true);
+    }
+
+    private JProgressBar criarBarraProgresso() {
+        this.tamanhoMaximoBProgresso = Tabuleiro.TEMPO_JOGADA;
+        this.barraProgresso.setMinimum(tamanhoMinimoBProgresso);
+        this.barraProgresso.setMaximum(tamanhoMaximoBProgresso);
+        this.barraProgresso.setStringPainted(true);
+
+        return this.barraProgresso;
     }
 
     private JPanel criarPainelBotoes() {

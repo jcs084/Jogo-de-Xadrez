@@ -14,7 +14,7 @@ public class Tabuleiro {
     private int linhaPadraoTabuleiro = 8, colunaPadraoTabuleiro = 8; // Tamanho Padrão de um tabuleiro de xadrez (8x8).
     private EnumCor rodada = EnumCor.BRANCO;
     private ControladorTempo controladorTempo;
-    public static final int TEMPO_JOGADA = 10000;
+    public static final int TEMPO_JOGADA = 60000;
 
 
     public Tabuleiro(ControladorTempo controladorTempo) {

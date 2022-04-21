@@ -35,17 +35,17 @@ public class JogoXadrezApplication extends JFrame {
     private void criaTabuleiro() {
         setTitle("Jogo de Xadrez");
         this.setLayout(new BorderLayout());
-        UIManager.put("ProgressBar.background", Color.WHITE);
-        UIManager.put("ProgressBar.foreground", Color.RED);
-        UIManager.put("ProgressBar.selectionBackground", Color.BLACK);
         this.barraProgresso = new JProgressBar();
         criarBarraProgresso();
         this.controladorTempo = new ControladorTempo(this.barraProgresso);
         this.tabuleiro = new Tabuleiro(controladorTempo);
         this.representarTabuleiro = new RepresentarTabuleiro(this.tabuleiro);
         this.controladorTempo.setRepresentarTabuleiro(this.representarTabuleiro);
+
+        //Adiciona o tabuleiro na tela.
         this.add(representarTabuleiro, BorderLayout.CENTER);
 
+        //Adiciona os paineis e botoes na tela.
         this.add(painelRodada(), BorderLayout.NORTH);
         this.add(criarPainelBotoes(), BorderLayout.EAST);
         this.add(criarBarraProgresso(), BorderLayout.SOUTH);
@@ -54,7 +54,6 @@ public class JogoXadrezApplication extends JFrame {
         // Controla o tempo limite de jogada
         this.threadTempo = new Thread(controladorTempo);
         this.threadTempo.start();
-
         this.pack();
         this.setVisible(true);
     }
@@ -63,7 +62,8 @@ public class JogoXadrezApplication extends JFrame {
         this.tamanhoMaximoBProgresso = Tabuleiro.TEMPO_JOGADA;
         this.barraProgresso.setMinimum(tamanhoMinimoBProgresso);
         this.barraProgresso.setMaximum(tamanhoMaximoBProgresso);
-        this.barraProgresso.setStringPainted(true);
+        this.barraProgresso.setForeground(Color.BLUE);
+        this.barraProgresso.setBackground(Color.WHITE);
 
         return this.barraProgresso;
     }

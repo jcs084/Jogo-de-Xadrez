@@ -15,6 +15,7 @@ public class Tabuleiro {
     private EnumCor rodada = EnumCor.BRANCO;
     private ControladorTempo controladorTempo;
     public static final int TEMPO_JOGADA = 60000;
+    public static final int TEMPO_JOGADA_ACABANDO = 40000;
 
 
     public Tabuleiro(ControladorTempo controladorTempo) {

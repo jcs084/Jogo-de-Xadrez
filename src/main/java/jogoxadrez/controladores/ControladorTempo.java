@@ -6,7 +6,7 @@ import jogoxadrez.modelojogo.Tabuleiro;
 import javax.swing.*;
 import java.awt.*;
 
-public class ControladorTempo implements Runnable{
+public class ControladorTempo implements Runnable {
     private RepresentarTabuleiro representarTabuleiro;
     private int tempoGasto = 0;
     private static boolean rodada = true;
@@ -19,17 +19,18 @@ public class ControladorTempo implements Runnable{
 
     @Override
     public void run() {
-        while(rodada){
-            try{
+        while (rodada) {
+            try {
                 Thread.sleep(100);
                 this.tempoGasto += 100;
                 this.barraProgresso.setValue(this.tempoGasto);
-                if(this.tempoGasto > Tabuleiro.TEMPO_JOGADA/2){
+                if (this.tempoGasto > Tabuleiro.TEMPO_JOGADA / 2) {
                     this.barraProgresso.setForeground(Color.YELLOW);
-                } else if (this.tempoGasto >= Tabuleiro.TEMPO_JOGADA/(Tabuleiro.TEMPO_JOGADA*0.7)){
+                }
+                if (this.tempoGasto > Tabuleiro.TEMPO_JOGADA_ACABANDO) {
                     this.barraProgresso.setForeground(Color.RED);
                 }
-                if(tempoGasto>= Tabuleiro.TEMPO_JOGADA){
+                if (tempoGasto >= Tabuleiro.TEMPO_JOGADA) {
                     JOptionPane.showMessageDialog(null, "O jogador " + representarTabuleiro.getTabuleiro().getRodada() + " perdeu a vez!");
                     if (representarTabuleiro.getTabuleiro().getPecaSelecionada() != null) {
                         representarTabuleiro.getTabuleiro().getPecaSelecionada().setSelecionada(false);

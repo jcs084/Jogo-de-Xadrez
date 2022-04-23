@@ -65,7 +65,6 @@ public class JogoXadrezApplication extends JFrame {
         this.tamanhoMaximoBProgresso = Tabuleiro.TEMPO_JOGADA;
         this.barraProgresso.setMinimum(tamanhoMinimoBProgresso);
         this.barraProgresso.setMaximum(tamanhoMaximoBProgresso);
-        this.barraProgresso.setForeground(Color.GREEN);
         this.barraProgresso.setBackground(Color.WHITE);
         return this.barraProgresso;
     }

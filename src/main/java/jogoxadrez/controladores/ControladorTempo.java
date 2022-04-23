@@ -21,9 +21,12 @@ public class ControladorTempo implements Runnable {
     public void run() {
         while (rodada) {
             try {
-                Thread.sleep(100);
-                this.tempoGasto += 100;
+                Thread.sleep(1);
+                this.tempoGasto += 1;
                 this.barraProgresso.setValue(this.tempoGasto);
+                if(this.tempoGasto < Tabuleiro.TEMPO_JOGADA / 2) {
+                    this.barraProgresso.setForeground(Color.GREEN);
+                }
                 if (this.tempoGasto > Tabuleiro.TEMPO_JOGADA / 2) {
                     this.barraProgresso.setForeground(Color.YELLOW);
                 }

@@ -6,11 +6,12 @@ import jogoxadrez.modelojogo.Tabuleiro;
 import javax.swing.*;
 import java.awt.*;
 
+@SuppressWarnings("ALL")
 public class ControladorTempo implements Runnable {
     private RepresentarTabuleiro representarTabuleiro;
     private int tempoGasto = 0;
-    private static boolean rodada = true;
-    private JProgressBar barraProgresso;
+    private final static boolean rodada = true;
+    private final JProgressBar barraProgresso;
 
     public ControladorTempo(JProgressBar barraProgresso) {
         super();

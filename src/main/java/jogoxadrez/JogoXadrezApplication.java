@@ -1,13 +1,12 @@
 package jogoxadrez;
 
 import jogoxadrez.controladores.ControladorTempo;
-import jogoxadrez.modelojogo.*;
-import jogoxadrez.modelopecas.*;
+import jogoxadrez.modelojogo.RepresentarTabuleiro;
+import jogoxadrez.modelojogo.Tabuleiro;
+import jogoxadrez.modelopecas.EnumCor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Classe Principal onde se executará o jogo de xadrez
@@ -20,14 +19,14 @@ public class JogoXadrezApplication extends JFrame {
 
     private static Thread threadTempo;
 
-    private int linhaPainelBotao = 10;
-    private int colunaPainelBotao = 1;
+    private final int linhaPainelBotao = 10;
+    private final int colunaPainelBotao = 1;
 
     private Tabuleiro tabuleiro;
     private ControladorTempo controladorTempo;
     private RepresentarTabuleiro representarTabuleiro;
     private JProgressBar barraProgresso;
-    private int tamanhoMinimoBProgresso = 0;
+    private final int tamanhoMinimoBProgresso = 0;
     private int tamanhoMaximoBProgresso;
 
     public JogoXadrezApplication(){
@@ -55,8 +54,8 @@ public class JogoXadrezApplication extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Controla o tempo limite de jogada
-        this.threadTempo = new Thread(controladorTempo);
-        this.threadTempo.start();
+        threadTempo = new Thread(controladorTempo);
+        threadTempo.start();
         this.pack();
         this.setVisible(true);
     }
@@ -70,14 +69,11 @@ public class JogoXadrezApplication extends JFrame {
     }
 
     private void reiniciaJogo(){
-        this.BT_REINICIAR_JOGO.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controladorTempo.zeraCronometro();
-                tabuleiro = new Tabuleiro(controladorTempo);
-                representarTabuleiro.setTabuleiro(tabuleiro);
-                representarTabuleiro.desenharTabuleiro();
-            }
+        this.BT_REINICIAR_JOGO.addActionListener(e -> {
+            controladorTempo.zeraCronometro();
+            tabuleiro = new Tabuleiro(controladorTempo);
+            representarTabuleiro.setTabuleiro(tabuleiro);
+            representarTabuleiro.desenharTabuleiro();
         });
 
     }
@@ -95,8 +91,8 @@ public class JogoXadrezApplication extends JFrame {
 
     private JPanel painelRodada() {
         JPanel pnRodada = new JPanel();
-        this.labelRodada = new JLabel("Vez de: BRANCO");
-        pnRodada.add(this.labelRodada);
+        labelRodada = new JLabel("Vez de: BRANCO");
+        pnRodada.add(labelRodada);
         return pnRodada;
     }
 

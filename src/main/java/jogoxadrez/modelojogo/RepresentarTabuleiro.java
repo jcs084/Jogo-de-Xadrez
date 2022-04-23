@@ -45,6 +45,9 @@ public class RepresentarTabuleiro extends JPanel implements MouseListener {
         return tabuleiro;
     }
 
+    public void setTabuleiro(Tabuleiro tabuleiro) {
+        this.tabuleiro = tabuleiro;
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {

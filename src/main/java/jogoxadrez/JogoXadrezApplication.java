@@ -6,6 +6,8 @@ import jogoxadrez.modelopecas.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Classe Principal onde se executará o jogo de xadrez
@@ -37,6 +39,7 @@ public class JogoXadrezApplication extends JFrame {
         this.setLayout(new BorderLayout());
         this.barraProgresso = new JProgressBar();
         criarBarraProgresso();
+
         this.controladorTempo = new ControladorTempo(this.barraProgresso);
         this.tabuleiro = new Tabuleiro(controladorTempo);
         this.representarTabuleiro = new RepresentarTabuleiro(this.tabuleiro);
@@ -62,10 +65,22 @@ public class JogoXadrezApplication extends JFrame {
         this.tamanhoMaximoBProgresso = Tabuleiro.TEMPO_JOGADA;
         this.barraProgresso.setMinimum(tamanhoMinimoBProgresso);
         this.barraProgresso.setMaximum(tamanhoMaximoBProgresso);
-        this.barraProgresso.setForeground(Color.BLUE);
+        this.barraProgresso.setForeground(Color.GREEN);
         this.barraProgresso.setBackground(Color.WHITE);
-
         return this.barraProgresso;
+    }
+
+    private void reiniciaJogo(){
+        this.BT_REINICIAR_JOGO.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controladorTempo.zeraCronometro();
+                tabuleiro = new Tabuleiro(controladorTempo);
+                representarTabuleiro.setTabuleiro(tabuleiro);
+                representarTabuleiro.desenharTabuleiro();
+            }
+        });
+
     }
 
     private JPanel criarPainelBotoes() {
@@ -73,6 +88,7 @@ public class JogoXadrezApplication extends JFrame {
         pnBotao.setLayout(new GridLayout(this.linhaPainelBotao, this.colunaPainelBotao));
         this.BT_REINICIAR_JOGO = new JButton("REINICIAR JOGO");
         this.BT_PASSAR_VEZ = new JButton("PASSAR A VEZ");
+        reiniciaJogo();
         pnBotao.add(this.BT_REINICIAR_JOGO);
         pnBotao.add(this.BT_PASSAR_VEZ);
         return pnBotao;

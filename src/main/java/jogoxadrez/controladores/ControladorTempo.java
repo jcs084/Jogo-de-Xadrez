@@ -25,6 +25,8 @@ public class ControladorTempo implements Runnable{
                 this.tempoGasto += 100;
                 this.barraProgresso.setValue(this.tempoGasto);
                 if(this.tempoGasto > Tabuleiro.TEMPO_JOGADA/2){
+                    this.barraProgresso.setForeground(Color.YELLOW);
+                } else if (this.tempoGasto >= Tabuleiro.TEMPO_JOGADA/(Tabuleiro.TEMPO_JOGADA*0.7)){
                     this.barraProgresso.setForeground(Color.RED);
                 }
                 if(tempoGasto>= Tabuleiro.TEMPO_JOGADA){

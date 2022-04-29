@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import jogoxadrez.modelojogo.*;
 import jogoxadrez.modelopecas.*;
 
+import javax.swing.*;
+
 /**
  * Classe de testes das funcionalidades do tabuleiro
  */
@@ -18,7 +20,7 @@ public class TesteTabuleiro {
     Peca cavalo = new Cavalo(EnumCor.PRETO, 0,6);
     Peca rainha = new Rainha(EnumCor.PRETO, 0,4);
     Peca rei = new Rei(EnumCor.PRETO, 0,3);
-    ControladorTempo controladorTempo = new ControladorTempo();
+    ControladorTempo controladorTempo = new ControladorTempo(new JProgressBar());
     @Test
     public void testeSelecaoPecas(){
         /**

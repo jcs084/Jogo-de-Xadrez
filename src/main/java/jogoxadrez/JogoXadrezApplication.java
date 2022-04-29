@@ -1,8 +1,9 @@
 package jogoxadrez;
 
 import jogoxadrez.controladores.ControladorTempo;
-import jogoxadrez.modelojogo.*;
-import jogoxadrez.modelopecas.*;
+import jogoxadrez.modelojogo.RepresentarTabuleiro;
+import jogoxadrez.modelojogo.Tabuleiro;
+import jogoxadrez.modelopecas.EnumCor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,14 +19,16 @@ public class JogoXadrezApplication extends JFrame {
 
     private static Thread threadTempo;
 
-    private int linhaPainelBotao = 10;
-    private int colunaPainelBotao = 1;
+    private final int linhaPainelBotao = 10;
+    private final int colunaPainelBotao = 1;
 
     private Tabuleiro tabuleiro;
-
     private ControladorTempo controladorTempo;
-
     private RepresentarTabuleiro representarTabuleiro;
+    public JProgressBar barraProgresso;
+
+    private final int tamanhoMinimoBProgresso = 0;
+    private int tamanhoMaximoBProgresso;
 
     public JogoXadrezApplication(){
         criaTabuleiro();
@@ -34,24 +37,46 @@ public class JogoXadrezApplication extends JFrame {
     private void criaTabuleiro() {
         setTitle("Jogo de Xadrez");
         this.setLayout(new BorderLayout());
-        this.controladorTempo = new ControladorTempo();
+        this.barraProgresso = new JProgressBar();
+
+        this.controladorTempo = new ControladorTempo(this.barraProgresso);
         this.tabuleiro = new Tabuleiro(controladorTempo);
         this.representarTabuleiro = new RepresentarTabuleiro(this.tabuleiro);
         this.controladorTempo.setRepresentarTabuleiro(this.representarTabuleiro);
+
+        //Adiciona o tabuleiro na tela.
         this.add(representarTabuleiro, BorderLayout.CENTER);
 
-        this.add(painelRodada(), BorderLayout.SOUTH);
-
+        //Adiciona os paineis e botoes na tela.
+        this.add(painelRodada(), BorderLayout.NORTH);
         this.add(criarPainelBotoes(), BorderLayout.EAST);
-
+        this.add(criarBarraProgresso(), BorderLayout.SOUTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Controla o tempo limite de jogada
-        this.threadTempo = new Thread(controladorTempo);
-        this.threadTempo.start();
-
+        threadTempo = new Thread(controladorTempo);
+        threadTempo.start();
         this.pack();
         this.setVisible(true);
+    }
+
+    private JProgressBar criarBarraProgresso() {
+        this.tamanhoMaximoBProgresso = Tabuleiro.TEMPO_JOGADA;
+        this.barraProgresso.setMinimum(tamanhoMinimoBProgresso);
+        this.barraProgresso.setMaximum(tamanhoMaximoBProgresso);
+        this.barraProgresso.setBackground(Color.WHITE);
+        return this.barraProgresso;
+    }
+
+    private void reiniciaJogo(){
+        this.BT_REINICIAR_JOGO.addActionListener(e -> {
+            controladorTempo.zeraCronometro();
+            tabuleiro = new Tabuleiro(controladorTempo);
+            representarTabuleiro.setTabuleiro(tabuleiro);
+            representarTabuleiro.desenharTabuleiro();
+            setLabelRodada(tabuleiro.getRodada());
+        });
+
     }
 
     private JPanel criarPainelBotoes() {
@@ -59,6 +84,7 @@ public class JogoXadrezApplication extends JFrame {
         pnBotao.setLayout(new GridLayout(this.linhaPainelBotao, this.colunaPainelBotao));
         this.BT_REINICIAR_JOGO = new JButton("REINICIAR JOGO");
         this.BT_PASSAR_VEZ = new JButton("PASSAR A VEZ");
+        reiniciaJogo();
         pnBotao.add(this.BT_REINICIAR_JOGO);
         pnBotao.add(this.BT_PASSAR_VEZ);
         return pnBotao;
@@ -66,8 +92,8 @@ public class JogoXadrezApplication extends JFrame {
 
     private JPanel painelRodada() {
         JPanel pnRodada = new JPanel();
-        this.labelRodada = new JLabel("Vez de: BRANCO");
-        pnRodada.add(this.labelRodada);
+        labelRodada = new JLabel("Vez de: BRANCO");
+        pnRodada.add(labelRodada);
         return pnRodada;
     }
 

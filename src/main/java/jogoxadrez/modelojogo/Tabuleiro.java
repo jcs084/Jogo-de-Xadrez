@@ -8,13 +8,15 @@ import jogoxadrez.modelopecas.*;
 /**
  * Classe do tabuleiro de Xadrez
  */
+@SuppressWarnings("ALL")
 public class Tabuleiro {
-    private Peca[][] pecasExistentes;
+    private final Peca[][] pecasExistentes;
     private Peca pecaSelecionada = null;
-    private int linhaPadraoTabuleiro = 8, colunaPadraoTabuleiro = 8; // Tamanho Padrão de um tabuleiro de xadrez (8x8).
+    private final int linhaPadraoTabuleiro = 8, colunaPadraoTabuleiro = 8; // Tamanho Padrão de um tabuleiro de xadrez (8x8).
     private EnumCor rodada = EnumCor.BRANCO;
-    private ControladorTempo controladorTempo;
-    public static final int TEMPO_JOGADA = 10000;
+    private final ControladorTempo controladorTempo;
+    public static final int TEMPO_JOGADA = 60000;
+    public static final int TEMPO_JOGADA_ACABANDO = 40000;
 
 
     public Tabuleiro(ControladorTempo controladorTempo) {

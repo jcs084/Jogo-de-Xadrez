@@ -76,7 +76,6 @@ public class JogoXadrezApplication extends JFrame {
             representarTabuleiro.desenharTabuleiro();
             setLabelRodada(tabuleiro.getRodada());
         });
-
     }
 
     private JPanel criarPainelBotoes() {

@@ -6,12 +6,12 @@ import jogoxadrez.modelojogo.Tabuleiro;
 import javax.swing.*;
 import java.awt.*;
 
-@SuppressWarnings("ALL")
 public class ControladorTempo implements Runnable {
     private RepresentarTabuleiro representarTabuleiro;
     private int tempoGasto = 0;
     private final static boolean rodada = true;
-    private final JProgressBar barraProgresso;
+    private JProgressBar barraProgresso;
+
 
     public ControladorTempo(JProgressBar barraProgresso) {
         super();
@@ -36,6 +36,7 @@ public class ControladorTempo implements Runnable {
                 }
                 if (tempoGasto >= Tabuleiro.TEMPO_JOGADA) {
                     JOptionPane.showMessageDialog(null, "O jogador " + representarTabuleiro.getTabuleiro().getRodada() + " perdeu a vez!");
+
                     if (representarTabuleiro.getTabuleiro().getPecaSelecionada() != null) {
                         representarTabuleiro.getTabuleiro().getPecaSelecionada().setSelecionada(false);
                         representarTabuleiro.getTabuleiro().setPecaSelecionada(null);

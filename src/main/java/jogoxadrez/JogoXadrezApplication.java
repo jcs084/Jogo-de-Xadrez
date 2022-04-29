@@ -25,7 +25,8 @@ public class JogoXadrezApplication extends JFrame {
     private Tabuleiro tabuleiro;
     private ControladorTempo controladorTempo;
     private RepresentarTabuleiro representarTabuleiro;
-    private JProgressBar barraProgresso;
+    public JProgressBar barraProgresso;
+
     private final int tamanhoMinimoBProgresso = 0;
     private int tamanhoMaximoBProgresso;
 
@@ -37,7 +38,6 @@ public class JogoXadrezApplication extends JFrame {
         setTitle("Jogo de Xadrez");
         this.setLayout(new BorderLayout());
         this.barraProgresso = new JProgressBar();
-        criarBarraProgresso();
 
         this.controladorTempo = new ControladorTempo(this.barraProgresso);
         this.tabuleiro = new Tabuleiro(controladorTempo);
@@ -74,6 +74,7 @@ public class JogoXadrezApplication extends JFrame {
             tabuleiro = new Tabuleiro(controladorTempo);
             representarTabuleiro.setTabuleiro(tabuleiro);
             representarTabuleiro.desenharTabuleiro();
+            setLabelRodada(tabuleiro.getRodada());
         });
 
     }

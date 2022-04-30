@@ -18,6 +18,9 @@ public class ControladorTempo implements Runnable {
         this.barraProgresso = barraProgresso;
     }
 
+    /**
+     * Método onde se faz o controle do tempo de cada jogada.
+     */
     @Override
     public void run() {
         while (rodada) {

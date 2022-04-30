@@ -18,6 +18,9 @@ public class RepresentarTabuleiro extends JPanel implements MouseListener {
         this.desenharTabuleiro();
     }
 
+    /**
+     * Método onde desenha o tabuleiro.
+     */
     public void desenharTabuleiro(){
         this.removeAll();
         this.setLayout(new GridLayout(tabuleiro.getLinhaPadraoTabuleiro(),tabuleiro.getColunaPadraoTabuleiro()));

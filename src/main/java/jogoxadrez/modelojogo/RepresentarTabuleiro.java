@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
  */
 public class RepresentarTabuleiro extends JPanel implements MouseListener {
     private Tabuleiro tabuleiro;
+    public static final JPanel painelPecaEliminada = new JPanel();
 
     public RepresentarTabuleiro(Tabuleiro tabuleiro) {
         this.tabuleiro = tabuleiro;
@@ -22,6 +23,7 @@ public class RepresentarTabuleiro extends JPanel implements MouseListener {
      * Método onde desenha o tabuleiro.
      */
     public void desenharTabuleiro(){
+        painelPecaEliminada.removeAll();
         this.removeAll();
         this.setLayout(new GridLayout(tabuleiro.getLinhaPadraoTabuleiro(),tabuleiro.getColunaPadraoTabuleiro()));
         for(int x = 0; x < tabuleiro.getLinhaPadraoTabuleiro(); x++){
@@ -39,7 +41,9 @@ public class RepresentarTabuleiro extends JPanel implements MouseListener {
                 this.add(representarCelula);
                 representarCelula.addMouseListener(this);
             }
-
+        }
+        for(Peca pecaEliminada : this.tabuleiro.getPecasForaJogo()){
+            painelPecaEliminada.add(new RepresentarPeca(pecaEliminada)); // adiciona todas as peças eliminadas no painel.
         }
         this.revalidate();
     }

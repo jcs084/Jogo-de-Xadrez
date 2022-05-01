@@ -51,6 +51,7 @@ public class JogoXadrezApplication extends JFrame {
         this.add(painelRodada(), BorderLayout.NORTH);
         this.add(criarPainelBotoes(), BorderLayout.EAST);
         this.add(this.barraProgresso, BorderLayout.SOUTH);
+        this.add(criarPainelPecasEliminadas(), BorderLayout.WEST);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Controla o tempo limite de jogada
@@ -88,6 +89,15 @@ public class JogoXadrezApplication extends JFrame {
         pnBotao.add(this.BT_REINICIAR_JOGO);
         pnBotao.add(this.BT_PASSAR_VEZ);
         return pnBotao;
+    }
+
+    private JPanel criarPainelPecasEliminadas(){
+        JPanel pnPecaEliminada = new JPanel();
+        RepresentarTabuleiro.painelPecaEliminada.setAlignmentX(Component.LEFT_ALIGNMENT);
+        RepresentarTabuleiro.painelPecaEliminada.setPreferredSize(new Dimension(100, 500));
+        RepresentarTabuleiro.painelPecaEliminada.setMaximumSize(new Dimension(100, 500));
+        pnPecaEliminada.add(RepresentarTabuleiro.painelPecaEliminada);
+        return pnPecaEliminada;
     }
 
     private JPanel painelRodada() {

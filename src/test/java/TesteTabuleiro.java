@@ -1,8 +1,11 @@
+import jogoxadrez.controladores.ControladorTempo;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import jogoxadrez.modelojogo.*;
 import jogoxadrez.modelopecas.*;
+
+import javax.swing.*;
 
 /**
  * Classe de testes das funcionalidades do tabuleiro
@@ -17,12 +20,13 @@ public class TesteTabuleiro {
     Peca cavalo = new Cavalo(EnumCor.PRETO, 0,6);
     Peca rainha = new Rainha(EnumCor.PRETO, 0,4);
     Peca rei = new Rei(EnumCor.PRETO, 0,3);
+    ControladorTempo controladorTempo = new ControladorTempo(new JProgressBar());
     @Test
     public void testeSelecaoPecas(){
         /**
          * Aqui se testa se determinada peca está selecionada.
          */
-        Tabuleiro tabuleiro = new Tabuleiro();
+        Tabuleiro tabuleiro = new Tabuleiro(controladorTempo);
         this.peao.setSelecionada(false);
         assertTrue(tabuleiro.selecionaPeca(this.peao), "A peça está selecionada!");
         assertFalse(tabuleiro.selecionaPeca(this.peao), "A peça não está mais selecionada!");
@@ -31,14 +35,13 @@ public class TesteTabuleiro {
     @Test
     public void testePassarRodada(){
         /**
-         * Aqui será testado quando que a rodada será do outro jogador.
+         * Aqui será testado quando que a rodada será do outro jogador. Só funcionará ao retirar o setLabelRodada do tabuleiro, senão dará nullPointerException
          */
 
-        Tabuleiro tabuleiro = new Tabuleiro();
+        Tabuleiro tabuleiro = new Tabuleiro(controladorTempo);
         tabuleiro.addPeca(peao);
         assertTrue(tabuleiro.passarRodada(), "Agora é a vez das peças pretas!");
         assertFalse(tabuleiro.passarRodada(), "Agora é a vez das peças brancas!");
-
     }
 
     @Test
@@ -47,7 +50,7 @@ public class TesteTabuleiro {
          * Aqui será testado se determinada peça pode movimentar.
          */
 
-        Tabuleiro tabuleiro = new Tabuleiro();
+        Tabuleiro tabuleiro = new Tabuleiro(controladorTempo);
         tabuleiro.addPeca(peao);
         tabuleiro.addPeca(torre);
         tabuleiro.addPeca(bispo);
@@ -92,8 +95,5 @@ public class TesteTabuleiro {
         //Funciona ao retirar o peão que está na sua frente.
         assertTrue(rei.movimentoValido(1,3));
         assertFalse(rei.movimentoValido(2,5));
-
-
-
     }
 }

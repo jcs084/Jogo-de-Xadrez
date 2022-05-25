@@ -1,44 +1,41 @@
 package jogoxadrez.modelojogo;
 
 
-import jogoxadrez.Principal;
+import jogoxadrez.JogoXadrezApplication;
+import jogoxadrez.controladores.ControladorTempo;
 import jogoxadrez.modelopecas.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe do tabuleiro de Xadrez
  */
+@SuppressWarnings("ALL")
 public class Tabuleiro {
-    private Peca[][] pecasExistentes;
+    private final Peca[][] pecasExistentes;
     private Peca pecaSelecionada = null;
-    private int linhaPadraoTabuleiro = 8, colunaPadraoTabuleiro = 8; // Tamanho Padrão de um tabuleiro de xadrez (8x8).
+    private final int linhaPadraoTabuleiro = 8, colunaPadraoTabuleiro = 8; // Tamanho Padrão de um tabuleiro de xadrez (8x8).
     private EnumCor rodada = EnumCor.BRANCO;
+    private final ControladorTempo controladorTempo;
+    public static final int TEMPO_JOGADA = 60000; // Tempo de jogada de 1 min
+    public static final int TEMPO_JOGADA_ACABANDO = 40000; // Tempo para quando a jogada estiver acabando.
+    private List<Peca> pecasForaJogo;
 
-    public Tabuleiro() {
+
+    public Tabuleiro(ControladorTempo controladorTempo) {
+        this.controladorTempo = controladorTempo;
         this.pecasExistentes = new Peca[getLinhaPadraoTabuleiro()][getColunaPadraoTabuleiro()];
+        this.pecasForaJogo = new ArrayList<>();
         adicionarPecasTabuleiro();
     }
 
-    public int getLinhaPadraoTabuleiro() {
-        return linhaPadraoTabuleiro;
-    }
-
-    public int getColunaPadraoTabuleiro() {
-        return colunaPadraoTabuleiro;
-    }
-
-    public Peca getPeca(int linha, int coluna) {
-        return this.pecasExistentes[linha][coluna];
-    }
-
-    public void setPeca(Peca peca){
-        this.pecasExistentes[peca.getLinha()][peca.getColuna()] = peca;
-        peca.setTabuleiro(this);
-    }
     public void addPeca(Peca peca) {
         this.pecasExistentes[peca.getLinha()][peca.getColuna()] = peca;
         peca.setTabuleiro(this);
     }
 
+    //Adiciona todas as peças em suas devidas posições no tabuleiro.
     public void adicionarPecasTabuleiro(){
         Torre torreBranca1 = new Torre(EnumCor.BRANCO, 7, 0);
         Torre torreBranca2 = new Torre(EnumCor.BRANCO, 7, 7);
@@ -89,10 +86,10 @@ public class Tabuleiro {
         }
     }
 
+    /**
+     * Método onde se retorna o estado da peça, se ela está selecionada ou não.
+     */
     public boolean selecionaPeca(Peca peca) {
-        /**
-         * Método onde se retorna o estado da peça, se ela está selecionada ou não.
-         */
         if (!peca.isSelecionada()) {
             peca.setSelecionada(true);
             this.pecaSelecionada = peca;
@@ -104,20 +101,18 @@ public class Tabuleiro {
         }
     }
 
+    /**
+     * Método onde se retorna a vez de cada peça.
+     */
     public boolean passarRodada() {
-        /**
-         * Método onde se retorna true caso seja a vez das peças brancas, e false caso seja a vez das pretas.
-         */
-        if (rodada.equals(EnumCor.BRANCO)) {
-            this.rodada = EnumCor.PRETO;
-            Principal.setLabelRodada(this.rodada);
-            return true;
-        }
-        this.rodada = EnumCor.BRANCO;
-        Principal.setLabelRodada(this.rodada);
-        return false;
+        this.rodada = rodada.equals(EnumCor.BRANCO) ? EnumCor.PRETO : EnumCor.BRANCO;
+        JogoXadrezApplication.setLabelRodada(this.rodada);
+        controladorTempo.zeraCronometro();
+        return rodada.equals(EnumCor.BRANCO);
     }
-
+    /**
+     * Método onde se faz o movimento de cada peça.
+     */
     public boolean movimentarPeca(Peca peca, int novaLinha, int novaColuna) {
         if(peca.movimentoValido(novaLinha, novaColuna)){
             this.pecasExistentes[peca.getLinha()][peca.getColuna()] = null;
@@ -135,7 +130,10 @@ public class Tabuleiro {
         return false;
     }
 
-    public void jogada(int linha, int coluna) {
+    /**
+     * Método onde se realiza a jogada por completo de cada peça.
+     */
+    public void realizaJogada(int linha, int coluna) {
         Peca peca = this.getPeca(linha, coluna);
         if(this.pecaSelecionada == null){
             if(peca != null && peca.getCor().equals(this.rodada)){
@@ -145,10 +143,47 @@ public class Tabuleiro {
             if(this.pecaSelecionada == peca){
                 this.selecionaPeca(peca);
             } else {
-                if(peca == null || !peca.getCor().equals(this.pecaSelecionada.getCor())){
+                if(peca == null){
+                    this.movimentarPeca(this.pecaSelecionada, linha, coluna);
+                }
+                if(peca != null && !peca.getCor().equals(this.pecaSelecionada.getCor())) {
+                    peca.setEliminada(true);
+                    pecasForaJogo.add(peca);
                     this.movimentarPeca(this.pecaSelecionada, linha, coluna);
                 }
             }
         }
+    }
+    public int getLinhaPadraoTabuleiro() {
+        return linhaPadraoTabuleiro;
+    }
+
+    public int getColunaPadraoTabuleiro() {
+        return colunaPadraoTabuleiro;
+    }
+
+    public Peca getPeca(int linha, int coluna) {
+        return this.pecasExistentes[linha][coluna];
+    }
+
+    public EnumCor getRodada() {
+        return rodada;
+    }
+
+    public Peca getPecaSelecionada() {
+        return pecaSelecionada;
+    }
+
+    public void setPecaSelecionada(Peca pecaSelecionada) {
+        this.pecaSelecionada = pecaSelecionada;
+    }
+
+    public void setPeca(Peca peca){
+        this.pecasExistentes[peca.getLinha()][peca.getColuna()] = peca;
+        peca.setTabuleiro(this);
+    }
+
+    public List<Peca> getPecasForaJogo() {
+        return pecasForaJogo;
     }
 }

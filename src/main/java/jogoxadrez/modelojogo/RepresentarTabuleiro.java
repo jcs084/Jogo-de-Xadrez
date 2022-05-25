@@ -12,13 +12,18 @@ import java.awt.event.MouseListener;
  */
 public class RepresentarTabuleiro extends JPanel implements MouseListener {
     private Tabuleiro tabuleiro;
+    public static final JPanel painelPecaEliminada = new JPanel();
 
     public RepresentarTabuleiro(Tabuleiro tabuleiro) {
         this.tabuleiro = tabuleiro;
         this.desenharTabuleiro();
     }
 
+    /**
+     * Método onde desenha o tabuleiro.
+     */
     public void desenharTabuleiro(){
+        painelPecaEliminada.removeAll();
         this.removeAll();
         this.setLayout(new GridLayout(tabuleiro.getLinhaPadraoTabuleiro(),tabuleiro.getColunaPadraoTabuleiro()));
         for(int x = 0; x < tabuleiro.getLinhaPadraoTabuleiro(); x++){
@@ -36,15 +41,25 @@ public class RepresentarTabuleiro extends JPanel implements MouseListener {
                 this.add(representarCelula);
                 representarCelula.addMouseListener(this);
             }
-
+        }
+        for(Peca pecaEliminada : this.tabuleiro.getPecasForaJogo()){
+            painelPecaEliminada.add(new RepresentarPeca(pecaEliminada)); // adiciona todas as peças eliminadas no painel.
         }
         this.revalidate();
+    }
+
+    public Tabuleiro getTabuleiro() {
+        return tabuleiro;
+    }
+
+    public void setTabuleiro(Tabuleiro tabuleiro) {
+        this.tabuleiro = tabuleiro;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         RepresentarCelula representarCelula = (RepresentarCelula) e.getSource();
-        this.tabuleiro.jogada(representarCelula.getLinha(), representarCelula.getColuna());
+        this.tabuleiro.realizaJogada(representarCelula.getLinha(), representarCelula.getColuna());
         this.desenharTabuleiro();
     }
 

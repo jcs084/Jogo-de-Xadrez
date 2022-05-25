@@ -94,8 +94,8 @@ public class JogoXadrezApplication extends JFrame {
     private JPanel criarPainelPecasEliminadas(){
         JPanel pnPecaEliminada = new JPanel();
         RepresentarTabuleiro.painelPecaEliminada.setAlignmentX(Component.LEFT_ALIGNMENT);
-        RepresentarTabuleiro.painelPecaEliminada.setPreferredSize(new Dimension(100, 500));
-        RepresentarTabuleiro.painelPecaEliminada.setMaximumSize(new Dimension(100, 500));
+        RepresentarTabuleiro.painelPecaEliminada.setPreferredSize(new Dimension(100, 5000000));
+        RepresentarTabuleiro.painelPecaEliminada.setMaximumSize(new Dimension(100,500000000));
         pnPecaEliminada.add(RepresentarTabuleiro.painelPecaEliminada);
         return pnPecaEliminada;
     }
